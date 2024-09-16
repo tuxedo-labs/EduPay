@@ -24,7 +24,7 @@ func main() {
 
 	database.Connect()
 
-	// routes.AutoMigrate()
+	routes.AutoMigrate()
 
 	// app.Use(cors.New(cors.Config{
 	// 	AllowOrigins:     "http://localhost:5173, https://tuxedo-frontend.vercel.app",
