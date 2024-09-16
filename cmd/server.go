@@ -1,6 +1,7 @@
 package main
 
 import (
+	"EduPay/database"
 	"EduPay/routes"
 	"log"
 	"os"
@@ -21,7 +22,7 @@ func main() {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 
-	// database.Connect()
+	database.Connect()
 
 	// routes.AutoMigrate()
 
