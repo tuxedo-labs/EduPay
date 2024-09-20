@@ -3,9 +3,11 @@ package services
 import (
 	"EduPay/database"
 	"EduPay/models/entity"
+	"EduPay/models/request"
 	"errors"
 	"time"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -15,17 +17,12 @@ func GetSiswaByNISN(nisn string) (*entity.Students, error) {
 	return &siswa, err
 }
 
-func GetPembayaranBySiswaID(siswaID uint, status string) ([]entity.Payments, error) {
+func GetPembayaranBySiswaID(siswaID uuid.UUID, status string) ([]entity.Payments, error) {
 	var pembayaran []entity.Payments
-	var err error
-
-	if status != "" {
-		err = database.DB.Where("siswa_id = ? AND status = ?", siswaID, status).Find(&pembayaran).Error
-	} else {
-		err = database.DB.Where("siswa_id = ?", siswaID).Find(&pembayaran).Error
+	if err := database.DB.Where("siswa_id = ? AND status = ?", siswaID, status).Find(&pembayaran).Error; err != nil {
+		return nil, err
 	}
-
-	return pembayaran, err
+	return pembayaran, nil
 }
 
 func ProcessPayment(nisn string, bulan string, tahun int) (*entity.Payments, *entity.Students, error) {
@@ -35,6 +32,7 @@ func ProcessPayment(nisn string, bulan string, tahun int) (*entity.Payments, *en
 	}
 
 	pembayaran := entity.Payments{
+		ID:        uuid.New(),
 		SiswaID:   siswa.ID,
 		Nominal:   100000,
 		Bulan:     bulan,
@@ -64,7 +62,7 @@ func GetPaymentHistory(nisn string) ([]entity.Payments, *entity.Students, error)
 	return pembayaran, &siswa, nil
 }
 
-func GetPaymentByMonthAndYear(nisn string, bulan string, tahun int) (*entity.Payments, error) {
+func GetPaymentByMonthAndYear(nisn string, bulan string, tahun int) (*request.PaymentResponse, error) {
 	var siswa entity.Students
 	if err := database.DB.Where("nisn = ?", nisn).First(&siswa).Error; err != nil {
 		return nil, err
@@ -78,5 +76,14 @@ func GetPaymentByMonthAndYear(nisn string, bulan string, tahun int) (*entity.Pay
 		return nil, err
 	}
 
-	return &pembayaran, nil
+	response := &request.PaymentResponse{
+		ID:      pembayaran.ID,
+		NISN:    siswa.NISN,
+		Bulan:   pembayaran.Bulan,
+		Tahun:   pembayaran.Tahun,
+		Nominal: pembayaran.Nominal,
+		Status:  pembayaran.Status,
+	}
+
+	return response, nil
 }

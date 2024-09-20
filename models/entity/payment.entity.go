@@ -1,12 +1,13 @@
 package entity
 
 import (
+	"github.com/google/uuid"
 	"time"
 )
 
 type Payments struct {
-	ID        uint       `json:"id"`
-	SiswaID   uint       `json:"siswa_id"`
+	ID        uuid.UUID  `json:"id" gorm:"type:char(36);primary_key"`
+	SiswaID   uuid.UUID  `json:"siswa_id" gorm:"type:char(36);index"`
 	Siswa     *Students  `json:"siswa"`
 	Bulan     string     `json:"bulan"`
 	Tahun     int        `json:"tahun"`

@@ -4,6 +4,7 @@ import (
 	"EduPay/database"
 	"EduPay/models/entity"
 	"fmt"
+	"github.com/google/uuid"
 )
 
 func SiswaSeeders() {
@@ -12,9 +13,9 @@ func SiswaSeeders() {
 
 	if count == 0 {
 		students := []entity.Students{
-			{NISN: "001", Nama: "Siswa Pertama", Kelas: "10A"},
-			{NISN: "002", Nama: "Siswa Kedua", Kelas: "11B"},
-			{NISN: "003", Nama: "Siswa Ketiga", Kelas: "12C"},
+			{ID: uuid.New(), NISN: "001", Nama: "Siswa Pertama", Kelas: "10A"},
+			{ID: uuid.New(), NISN: "002", Nama: "Siswa Kedua", Kelas: "11B"},
+			{ID: uuid.New(), NISN: "003", Nama: "Siswa Ketiga", Kelas: "12C"},
 		}
 
 		for _, student := range students {
