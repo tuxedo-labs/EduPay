@@ -26,13 +26,13 @@ func main() {
 
 	routes.AutoMigrate()
 
-	// app.Use(cors.New(cors.Config{
-	// 	AllowOrigins:     "http://localhost:5173, https://tuxedo-frontend.vercel.app",
-	// 	AllowMethods:     "GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD",
-	// 	AllowHeaders:     "Origin, Content-Type, Accept, Authorization, x-token",
-	// 	ExposeHeaders:    "Content-Length",
-	// 	AllowCredentials: true,
-	// }))
+	app.Use(cors.New(cors.Config{
+    AllowOrigins:     "http://localhost:5173, http://localhost:8081",
+		AllowMethods:     "GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD",
+		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, x-token",
+		ExposeHeaders:    "Content-Length",
+		AllowCredentials: true,
+	}))
 
 	app.Static("/", "./public")
 	routes.SetupRouter(app)
