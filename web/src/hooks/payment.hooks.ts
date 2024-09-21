@@ -41,7 +41,7 @@ export const usePaymentStatus = (nisn: string | null) => {
   };
 };
 
-export const usePaymentCreate = (nisn: string | null) => {
+export const usePaymentCreate = (nisn: string) => {
   const [paymentCreate, setPaymentCreate] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -60,7 +60,6 @@ export const usePaymentCreate = (nisn: string | null) => {
         setLoading(false);
       }
     };
-
     fetchPaymentCreate();
   }, [nisn]);
 

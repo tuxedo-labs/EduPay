@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Button } from "../elements/Button";
 import { usePaymentCheck } from "@/hooks/payment.hooks";
 import { InputField } from "./InputField";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { PaymentCreate } from "@/repository/payment";
 
 interface PaymentCheckFormProps {
   onCheckComplete: (message: string) => void;
@@ -13,6 +14,7 @@ export const PaymentCheckForm: React.FC<PaymentCheckFormProps> = ({ onCheckCompl
   const [nisn, setNisn] = useState<string>("");
   const [submittedNisn, setSubmittedNisn] = useState<string | null>(null);
   const { paymentCheck, loading, error } = usePaymentCheck(submittedNisn);
+  const router = useRouter()
 
   const handleCheck = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +22,12 @@ export const PaymentCheckForm: React.FC<PaymentCheckFormProps> = ({ onCheckCompl
       setSubmittedNisn(nisn);
     }
   };
+
+  const handleDoPayment = async () => {
+    localStorage.setItem('nisn', nisn)
+    await PaymentCreate(nisn)
+    router.push('/payment')
+  }
 
   useEffect(() => {
     if (paymentCheck) {
@@ -42,7 +50,7 @@ export const PaymentCheckForm: React.FC<PaymentCheckFormProps> = ({ onCheckCompl
       {message && (
         <div className="mt-4 text-center">
           <p>{message}</p>
-          <Link href="">Lakukan pembayaran</Link>
+          <button onClick={handleDoPayment} className="text-blue-500 font-bold">Lakukan pembayaran</button>
         </div>
       )}
 
