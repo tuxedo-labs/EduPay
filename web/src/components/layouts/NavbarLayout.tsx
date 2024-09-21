@@ -8,14 +8,7 @@ export default function NavbarLayout() {
         <div className="flex items-center space-x-2">
           <span className="text-2xl font-bold">EduPay</span>
         </div>
-        <nav className="hidden md:block">
-          <ul className="flex space-x-4">
-            <li><a href="#features" className="hover:text-primary">Features</a></li>
-            <li><a href="#pricing" className="hover:text-primary">Pricing</a></li>
-            <li><a href="#testimonials" className="hover:text-primary">Testimonials</a></li>
-          </ul>
-        </nav>
-        <Button>Get Started</Button>
+        <Button className='bg-black p-2 text-white rounded'>Get Started</Button>
       </div>
     </header>
   )

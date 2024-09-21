@@ -4,27 +4,33 @@ import {
   PaymentStatus,
   PaymentCheck,
 } from "@/repository/payment";
+import { PaymentStatusResponse } from "@/types/hooks/payment";
 import { useEffect, useState } from "react";
 
-export const usePaymentStatus = async (nisn: number) => {
-  const [paymentStatus, setPaymentStatus] = useState([]);
+export const usePaymentStatus = (nisn: string | null) => {
+  const [paymentStatus, setPaymentStatus] =
+    useState<PaymentStatusResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const fetchPaymentStatus = async () => {
+      if (nisn === null) return;
+
+      setLoading(true);
       try {
         const result = await PaymentStatus(nisn);
         setPaymentStatus(result.data);
-        setLoading(true);
+        console.log(process.env.NEXT_PUBLIC_API_URL);
       } catch (error) {
         setError(error as Error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchPaymentStatus();
-  }, []);
+  }, [nisn]);
 
   return {
     paymentStatus,

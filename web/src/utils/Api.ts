@@ -1,1 +1,1 @@
-export const API = process.env.NEXT_PUBLIC_BACK_END;
+export const API = "http://103.175.220.20:1111/api";
