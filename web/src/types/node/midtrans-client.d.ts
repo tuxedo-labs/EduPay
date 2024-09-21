@@ -1,28 +1,28 @@
-declare module "midtrans-client" {
-  interface TransactionDetails {
+eclare module "midtrans-client" {
+  export interface TransactionDetails {
     order_id: string;
     gross_amount: number;
   }
 
-  interface ItemDetails {
+  export interface ItemDetails {
     id: string;
     name: string;
     price: number;
     quantity: number;
   }
 
-  interface TransactionParameter {
+  export interface Parameter {
     transaction_details: TransactionDetails;
     item_details: ItemDetails[];
   }
 
-  class Snap {
+  export class Snap {
     constructor(config: {
       isProduction: boolean;
       serverKey: string;
       clientKey: string;
     });
-    createTransactionToken(parameter: TransactionParameter): Promise<string>;
+    createTransactionToken(parameter: Parameter): Promise<string>;
   }
 
   export default Snap;

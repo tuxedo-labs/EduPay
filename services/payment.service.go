@@ -87,3 +87,19 @@ func GetPaymentByMonthAndYear(nisn string, bulan string, tahun int) (*request.Pa
 
 	return response, nil
 }
+
+func UpdatePaymentStatus(paymentID string, newStatus string) error {
+	var payment entity.Payments
+
+	if err := database.DB.Where("id = ?", paymentID).First(&payment).Error; err != nil {
+		return errors.New("payment not found")
+	}
+
+	payment.Status = newStatus
+
+	if err := database.DB.Save(&payment).Error; err != nil {
+		return errors.New("failed to update payment status")
+	}
+
+	return nil
+}

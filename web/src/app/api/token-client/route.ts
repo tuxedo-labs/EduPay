@@ -1,15 +1,24 @@
 import Midtrans from "midtrans-client";
 import { NextResponse } from "next/server";
 
-let snap = new Midtrans({
-  isProduction: process.env.NEXT_PUBLIC_STATUS === "true", // Ensure boolean conversion
-  serverKey: process.env.NEXT_PUBLIC_SECRET || "", // Ensure env vars are available
-  clientKey: process.env.NEXT_PUBLIC_CLIENT || "", // Ensure env vars are available
+const snap = new Midtrans.Snap({
+  isProduction: false, // Set to false for sandbox testing
+  serverKey: process.env.TEST_NEXT_PUBLIC_SECRET || "",
+  clientKey: process.env.TEST_NEXT_PUBLIC_CLIENT || "",
 });
 
-export async function POST(request: any) {
+interface PaymentRequest {
+  paymentId: string;
+  nisn: string;
+  price: number;
+  month: string;
+  year: number;
+}
+
+export async function POST(request: Request) {
   try {
-    const { paymentId, nisn, price, month, year } = await request.json();
+    const { paymentId, nisn, price, month, year }: PaymentRequest =
+      await request.json();
 
     const parameter = {
       transaction_details: {
@@ -19,7 +28,7 @@ export async function POST(request: any) {
       item_details: [
         {
           id: paymentId,
-          name: `PEMBAYARAN UANG SEKOLAH ${month} - ${year} NISN : ${nisn}`,
+          name: `PEMBAYARAN ${month} - ${year} ${nisn}`,
           price: price,
           quantity: 1,
         },
@@ -33,7 +42,7 @@ export async function POST(request: any) {
       message: "success",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json(
       {
         message: "Failed to generate token",

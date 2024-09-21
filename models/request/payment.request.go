@@ -10,3 +10,6 @@ type PaymentResponse struct {
 	Nominal int       `json:"nominal"`
 	Status  string    `json:"status"`
 }
+type UpdatePaymentRequest struct {
+	Status string `json:"status"`
+}

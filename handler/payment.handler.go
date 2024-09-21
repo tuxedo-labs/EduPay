@@ -2,7 +2,9 @@ package handler
 
 import (
 	"EduPay/models/entity"
+	"EduPay/models/request"
 	"EduPay/services"
+	"net/http"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -154,5 +156,40 @@ func GetPaymentHistoryHandler(c *fiber.Ctx) error {
 			"nama":  siswa.Nama,
 			"kelas": siswa.Kelas,
 		},
+	})
+}
+
+func UpdatePaymentStatusHandler(c *fiber.Ctx) error {
+	var request request.UpdatePaymentRequest
+	if err := c.BodyParser(&request); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid JSON format",
+			"error":   err.Error(),
+		})
+	}
+
+	if request.Status == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Status is required",
+		})
+	}
+
+	paymentID := c.Params("id")
+	if paymentID == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Payment ID is required",
+		})
+	}
+
+	err := services.UpdatePaymentStatus(paymentID, request.Status)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to update payment status",
+			"error":   err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Payment status updated successfully",
 	})
 }

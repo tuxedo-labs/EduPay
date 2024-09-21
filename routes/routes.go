@@ -3,10 +3,13 @@ package routes
 import (
 	"EduPay/config"
 	"EduPay/handler"
+	"EduPay/middleware"
 	"EduPay/models/entity"
 
 	"github.com/gofiber/fiber/v2"
 )
+
+var auth = middleware.Auth
 
 func SetupRouter(app *fiber.App) {
 	api := app.Group("/api")
@@ -18,6 +21,7 @@ func SetupRouter(app *fiber.App) {
 	api.Get("/payment/history/:nisn", handler.GetPaymentHistoryHandler)
 
 	api.Get("/payment/check/:nisn", handler.CheckCurrentMonthPayment)
+	api.Put("/payments/:id", auth, handler.UpdatePaymentStatusHandler)
 
 }
 
