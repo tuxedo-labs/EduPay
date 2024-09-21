@@ -13,6 +13,8 @@ const PaymentForm = () => {
     if (nisn) {
       setSubmittedNisn(nisn); // Keep it as string to preserve leading zeros
     }
+    console.log(nisn)
+    console.log(paymentStatus)
   };
 
   return (

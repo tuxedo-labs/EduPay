@@ -22,6 +22,7 @@ export const usePaymentStatus = (nisn: string | null) => {
         const result = await PaymentStatus(nisn);
         setPaymentStatus(result.data);
         console.log(process.env.NEXT_PUBLIC_API_URL);
+        console.log(result.data);
       } catch (error) {
         setError(error as Error);
       } finally {
