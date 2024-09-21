@@ -28,7 +28,7 @@ func main() {
 	routes.AutoMigrate()
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:5173, http://localhost:8081",
+		AllowOrigins:     "http://localhost:3000, http://localhost:8081",
 		AllowMethods:     "GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD",
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, x-token",
 		ExposeHeaders:    "Content-Length",
