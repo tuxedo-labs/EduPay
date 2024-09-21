@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "../elements/Button";
 import { usePaymentCheck } from "@/hooks/payment.hooks";
 import { InputField } from "./InputField";
+import Link from "next/link";
 
 interface PaymentCheckFormProps {
   onCheckComplete: (message: string) => void;
@@ -41,6 +42,7 @@ export const PaymentCheckForm: React.FC<PaymentCheckFormProps> = ({ onCheckCompl
       {message && (
         <div className="mt-4 text-center">
           <p>{message}</p>
+          <Link href="">Lakukan pembayaran</Link>
         </div>
       )}
 
