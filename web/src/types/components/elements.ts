@@ -13,17 +13,10 @@ export interface LabelProps {
 }
 
 export interface InputProps {
-  id: any;
+  id?: any;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   className?: string;
-}
-
-export interface InputFieldProps {
-  label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string;
-  id: string;
+  required: boolean;
 }

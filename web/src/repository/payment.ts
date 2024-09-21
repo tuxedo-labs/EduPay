@@ -29,7 +29,7 @@ export const PaymentCreate = async (nisn: string) => {
   }
 };
 
-export const PaymentHistory = async (nisn: number) => {
+export const PaymentHistory = async (nisn: string | null) => {
   try {
     const result = await Fetch.get(`/payment/history/${nisn}`);
     return result;
@@ -43,9 +43,9 @@ export const PaymentHistory = async (nisn: number) => {
   }
 };
 
-export const PaymentCheck = async (nisn: number) => {
+export const PaymentCheck = async (nisn: string) => {
   try {
-    const result = await Fetch.get(`/payment/history/${nisn}`);
+    const result = await Fetch.get(`/payment/check/${nisn}`);
     return result;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
