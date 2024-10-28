@@ -1,0 +1,11 @@
+{
+  "name": "backend-edupay",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test" : "node main.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
